@@ -4,15 +4,13 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Net;
-using System.Security.AccessControl;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
 using CacheSharp.Caching;
 using CacheSharp.Configuration;
 
-namespace CacheSharp.Runners
+namespace CacheSharp.Console.Runners
 {
     public sealed class LoadRunner<TCache> where TCache : AsyncCache<string>, new()
     {
@@ -142,10 +140,10 @@ namespace CacheSharp.Runners
                     int n = countPerSecond/100;
                     lock (o)
                     {
-                        Console.WriteLine();
+                        System.Console.WriteLine();
                         foreach (object n1 in new object[n])
-                            Console.Write(" ");
-                        Console.Write(metricKey + ": " + countPerSecond);
+                            System.Console.Write(" ");
+                        System.Console.Write(metricKey + ": " + countPerSecond);
                     }
 
                 }
