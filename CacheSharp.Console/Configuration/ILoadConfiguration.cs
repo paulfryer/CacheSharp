@@ -1,6 +1,4 @@
-﻿using System.Security.Cryptography.X509Certificates;
-
-namespace CacheSharp.Configuration
+﻿namespace CacheSharp.Console.Configuration
 {
     public interface ILoadConfiguration
     {

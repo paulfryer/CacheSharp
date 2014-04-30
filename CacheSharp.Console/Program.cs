@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Configuration;
 using CacheSharp.Caching;
-using CacheSharp.Configuration;
+using CacheSharp.Console.Configuration;
 using CacheSharp.Console.Runners;
 
 namespace CacheSharp.Console

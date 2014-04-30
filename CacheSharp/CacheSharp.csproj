@@ -60,8 +60,6 @@
     <Compile Include="Events\PutEventArgs.cs" />
     <Compile Include="Caching\RedisAsyncCache.cs" />
     <Compile Include="Caching\SqlAsyncCache.cs" />
-    <Compile Include="Configuration\FileLoadConfiguration.cs" />
-    <Compile Include="Configuration\ILoadConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

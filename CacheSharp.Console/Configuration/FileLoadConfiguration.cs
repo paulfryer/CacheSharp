@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Configuration;
 
-namespace CacheSharp.Configuration
+namespace CacheSharp.Console.Configuration
 {
     public class FileLoadConfiguration : ILoadConfiguration
     {
