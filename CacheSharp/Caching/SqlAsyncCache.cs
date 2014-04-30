@@ -11,7 +11,7 @@ namespace CacheSharp.Caching
     {
         private DbConnection conn;
 
-        public override async Task Initialize(Dictionary<string, string> parameters)
+        public override async Task InitializeAsync(Dictionary<string, string> parameters)
         {
             string connString = parameters["ConnectionString"];
             conn = new SqlConnection(connString);

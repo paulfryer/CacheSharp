@@ -18,7 +18,7 @@ namespace CacheSharp.Runners
     {
 
         // 15 second interval.
-        System.Timers.Timer timer = new System.Timers.Timer(15 * 1000);
+        readonly System.Timers.Timer timer = new System.Timers.Timer(15 * 1000);
 
 
 
@@ -92,7 +92,7 @@ namespace CacheSharp.Runners
                     initializationProperty => initializationProperty, 
                     initializationProperty => ConfigurationManager.AppSettings[cache.ProviderName + "." + initializationProperty]);
 
-                await cache.Initialize(initializationProperties);
+                await cache.InitializeAsync(initializationProperties);
 
                 cache.PrePut += (sender, args) => UpdateMetric("Put");
                 cache.PreGet += (sender, args) => UpdateMetric("Get");
@@ -113,14 +113,14 @@ namespace CacheSharp.Runners
                         var value = sb.ToString();
                         if (TestOperations.Contains("Put"))
                             await
-                                (cache as IAsyncCache<string>).Put(key, value,
+                                (cache as IAsyncCache<string>).PutAsync(key, value,
                                     TimeSpan.FromMinutes(5));
 
                         if (TestOperations.Contains("Get"))
-                            await (cache as IAsyncCache<string>).Get(key);
+                            await (cache as IAsyncCache<string>).GetAsync(key);
 
                         if (TestOperations.Contains("Remove"))
-                            await (cache as IAsyncCache<string>).Remove(key);
+                            await (cache as IAsyncCache<string>).RemoveAsync(key);
                     }
                 };
                 actions.Add(Task.Run(action));

@@ -6,9 +6,9 @@ namespace CacheSharp.Caching
 {
     public interface IAsyncCache<T>
     {
-        Task Initialize(Dictionary<string, string> parameters);
-        Task Put(string key, T value, TimeSpan lifeSpan);
-        Task<T> Get(string key);
-        Task Remove(string key);
+        Task InitializeAsync(Dictionary<string, string> parameters);
+        Task PutAsync(string key, T value, TimeSpan lifeSpan);
+        Task<T> GetAsync(string key);
+        Task RemoveAsync(string key);
     }
 }

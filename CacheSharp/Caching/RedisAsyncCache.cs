@@ -10,7 +10,7 @@ namespace CacheSharp.Caching
         private IDatabase db;
        
 
-        public override async Task Initialize(Dictionary<string, string> parameters)
+        public override async Task InitializeAsync(Dictionary<string, string> parameters)
         {
             var endpoint = parameters["Endpoint"];
             var redis = await ConnectionMultiplexer.ConnectAsync(endpoint);

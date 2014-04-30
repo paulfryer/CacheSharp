@@ -16,7 +16,7 @@ namespace CacheSharp.Caching
             get { return new List<string> {"Endpoint"}; }
         }
 
-        public override async Task Initialize(Dictionary<string, string> parameters)
+        public override async Task InitializeAsync(Dictionary<string, string> parameters)
         {
             string endpoint = parameters["Endpoint"];
             client = new MemcachedClient(endpoint, new MemcachedOptions

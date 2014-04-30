@@ -7,7 +7,7 @@ namespace CacheSharp.Caching
 {
     public abstract class AsyncCache<T> : IAsyncCache<T>, IDisposable
     {
-        public abstract Task Initialize(Dictionary<string, string> parameters);
+        public abstract Task InitializeAsync(Dictionary<string, string> parameters);
 
         public virtual string ProviderName
         {
@@ -21,7 +21,7 @@ namespace CacheSharp.Caching
 
         public abstract List<string> InitializationProperties { get; }
 
-        async Task IAsyncCache<T>.Put(string key, T value, TimeSpan lifeSpan)
+        async Task IAsyncCache<T>.PutAsync(string key, T value, TimeSpan lifeSpan)
         {
             if (PrePut != null)
                 PrePut(this, new PutEventArgs<T>(key, value, lifeSpan));
@@ -30,7 +30,7 @@ namespace CacheSharp.Caching
                 PostPut(this, new PutEventArgs<T>(key, value, lifeSpan));
         }
 
-        async Task<T> IAsyncCache<T>.Get(string key)
+        async Task<T> IAsyncCache<T>.GetAsync(string key)
         {
             if (PreGet != null)
                 PreGet(this, new CacheEventArgs(key));
@@ -40,7 +40,7 @@ namespace CacheSharp.Caching
             return value;
         }
 
-        async Task IAsyncCache<T>.Remove(string key)
+        async Task IAsyncCache<T>.RemoveAsync(string key)
         {
             if (PreRemove != null)
                 PreRemove(this, new CacheEventArgs(key));
