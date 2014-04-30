@@ -1,0 +1,319 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MemcachedSharp</name>
+    </assembly>
+    <members>
+        <member name="T:MemcachedSharp.CasResult">
+            <summary>
+            Represents the result of a Memcached 'cas' operation. Possible results are Success, 
+            </summary>
+        </member>
+        <member name="F:MemcachedSharp.CasResult.Stored">
+            <summary>
+            The item was stored because the specified cas unique field matched the one in Memcached.
+            </summary>
+        </member>
+        <member name="F:MemcachedSharp.CasResult.Exists">
+            <summary>
+            The item was not stored because the specified cas unique field didn't match the one in Memcached.
+            </summary>
+        </member>
+        <member name="F:MemcachedSharp.CasResult.NotFound">
+            <summary>
+            No operation was performed because no item exists for the specified key.
+            </summary>
+        </member>
+        <member name="T:MemcachedSharp.MemcachedClient">
+            <summary>
+            Encapsulates a client that may perform operations against a specified Memcached host.
+            </summary>
+            <remarks>
+            Instances are stateful and internally pool connections to the specified host.
+            Instances of this class ought to be disposed when they are no longer needed.
+            </remarks>
+        </member>
+        <member name="M:MemcachedSharp.MemcachedClient.#ctor(System.String,MemcachedSharp.MemcachedOptions)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MemcachedSharp.MemcachedClient"/> class.
+            </summary>
+            <param name="endpoint">
+                <para>The host name or IP address and, optionally, the port number of the target Memcached server.</para>
+                <para>Examples: "localhost:11211", "127.0.0.1"</para>
+            </param>
+            <param name="options">Optional. A set of options for the client.</param>
+            <exception cref="T:System.ArgumentNullException">
+                <para><paramref name="endpoint"/> is <c>null</c>.</para>
+            </exception>
+            <exception cref="T:System.ArgumentException">
+                <para><paramref name="endpoint"/> is invalid.</para>
+            </exception>
+        </member>
+        <member name="M:MemcachedSharp.MemcachedClient.Get(System.String)">
+            <summary>
+            Gets a <c>MemcachedItem</c> from Memcached with the specified <paramref name="key"/>. Doesn't include the <see cref="P:MemcachedSharp.MemcachedItem.CasUnique"/> field.
+            </summary>
+            <param name="key">The key of the item to get. Must be between 1 and 250 characters and may not contain whitespace or control characters.</param>
+            <returns>
+            A task containing a <c>MemcachedItem</c> that encapsulates the response and data if found; otherwise <c>null</c>.
+            </returns>
+        </member>
+        <member name="M:MemcachedSharp.MemcachedClient.Gets(System.String)">
+            <summary>
+            Gets a <c>MemcachedItem</c> from Memcached with the specified <paramref name="key"/>. Includes the <see cref="P:MemcachedSharp.MemcachedItem.CasUnique"/> field.
+            </summary>
+            <param name="key">The key of the item to get. Must be between 1 and 250 characters and may not contain whitespace or control characters.</param>
+            <returns>
+            A task containing a <c>MemcachedItem</c> that encapsulates the response and data if found; otherwise <c>null</c>.
+            </returns>
+        </member>
+        <member name="M:MemcachedSharp.MemcachedClient.Set(System.String,System.Byte[],MemcachedSharp.MemcachedStorageOptions)">
+            <summary>
+            Stores the specified <paramref name="value"/> in Memcached with the given <paramref name="key"/>.
+            </summary>
+            <param name="key">The key of the item to set. Must be between 1 and 250 characters and may not contain whitespace or control characters.</param>
+            <param name="value">A <c>byte</c>[] containing the data to be stored in Memcached.</param>
+            <param name="options">Optional options to pass to Memcached.</param>
+            <returns>A task that completes when the operation finishes successfully or faults in the event of a failure.</returns>
+        </member>
+        <member name="M:MemcachedSharp.MemcachedClient.Set(System.String,System.Byte[],System.Int32,System.Int32,MemcachedSharp.MemcachedStorageOptions)">
+            <summary>
+            Stores the specified data in Memcached with the given <paramref name="key"/>.
+            </summary>
+            <param name="key">The key of the item to set. Must be between 1 and 250 characters and may not contain whitespace or control characters.</param>
+            <param name="buffer">A <c>byte</c>[] containing the data to be stored in Memcached.</param>
+            <param name="offset">The point in <paramref name="buffer"/> at which the data to store begins.</param>
+            <param name="count">The number of bytes in <paramref name="buffer"/> to store.</param>
+            <param name="options">Optional options to pass to Memcached.</param>
+            <returns>A task that completes when the operation finishes successfully or faults in the event of a failure.</returns>
+        </member>
+        <member name="M:MemcachedSharp.MemcachedClient.Add(System.String,System.Byte[],MemcachedSharp.MemcachedStorageOptions)">
+            <summary>
+            Adds the specified <paramref name="value"/> to Memcached if no value exists with the given <paramref name="key"/>.
+            </summary>
+            <param name="key">The key of the item to set. Must be between 1 and 250 characters and may not contain whitespace or control characters.</param>
+            <param name="value">A <c>byte</c>[] containing the data to be stored in Memcached.</param>
+            <param name="options">Optional options to pass to Memcached.</param>
+            <returns>A task that completes with <c>true</c> if the item was added, <c>false</c> if an item already exists for that key, or completes unsuccessfully otherwise.</returns>
+        </member>
+        <member name="M:MemcachedSharp.MemcachedClient.Add(System.String,System.Byte[],System.Int32,System.Int32,MemcachedSharp.MemcachedStorageOptions)">
+            <summary>
+            Adds the specified data to Memcached if no value exists with the given <paramref name="key"/>.
+            </summary>
+            <param name="key">The key of the item to set. Must be between 1 and 250 characters and may not contain whitespace or control characters.</param>
+            <param name="buffer">A <c>byte</c>[] containing the data to be stored in Memcached.</param>
+            <param name="offset">The point in <paramref name="buffer"/> at which the data to store begins.</param>
+            <param name="count">The number of bytes in <paramref name="buffer"/> to store.</param>
+            <param name="options">Optional options to pass to Memcached.</param>
+            <returns>A task that completes with <c>true</c> if the item was added, <c>false</c> if an item already exists for that key, or completes unsuccessfully otherwise.</returns>
+        </member>
+        <member name="M:MemcachedSharp.MemcachedClient.Replace(System.String,System.Byte[],MemcachedSharp.MemcachedStorageOptions)">
+            <summary>
+            Replaces the specified <paramref name="value"/> in Memcached if a value exists for the given <paramref name="key"/>.
+            </summary>
+            <param name="key">The key of the item to replace. Must be between 1 and 250 characters and may not contain whitespace or control characters.</param>
+            <param name="value">A <c>byte</c>[] containing the data to be stored in Memcached.</param>
+            <param name="options">Optional options to pass to Memcached.</param>
+            <returns>A task that completes with <c>true</c> if an item was replaced, <c>false</c> if no item existed for that key, or completes unsuccessfully otherwise.</returns>
+        </member>
+        <member name="M:MemcachedSharp.MemcachedClient.Replace(System.String,System.Byte[],System.Int32,System.Int32,MemcachedSharp.MemcachedStorageOptions)">
+            <summary>
+            Replaces the specified data in Memcached if a value exists for the given <paramref name="key"/>.
+            </summary>
+            <param name="key">The key of the item to replace. Must be between 1 and 250 characters and may not contain whitespace or control characters.</param>
+            <param name="buffer">A <c>byte</c>[] containing the data to be stored in Memcached.</param>
+            <param name="offset">The point in <paramref name="buffer"/> at which the data to store begins.</param>
+            <param name="count">The number of bytes in <paramref name="buffer"/> to store.</param>
+            <param name="options">Optional options to pass to Memcached.</param>
+            <returns>A task that completes with <c>true</c> if an item was replaced, <c>false</c> if no item existed for that key, or completes unsuccessfully otherwise.</returns>
+        </member>
+        <member name="M:MemcachedSharp.MemcachedClient.Append(System.String,System.Byte[],MemcachedSharp.MemcachedStorageOptions)">
+            <summary>
+            Appends the specified <paramref name="value"/> to an object in Memcached if the object exists for the given <paramref name="key"/>.
+            </summary>
+            <param name="key">The key of the item to append to. Must be between 1 and 250 characters and may not contain whitespace or control characters.</param>
+            <param name="value">A <c>byte</c>[] containing the data to be stored in Memcached.</param>
+            <param name="options">Optional options to pass to Memcached.</param>
+            <returns>A task that completes with <c>true</c> if the item existed and was appended, <c>false</c> if no item existed for that key, or completes unsuccessfully otherwise.</returns>
+        </member>
+        <member name="M:MemcachedSharp.MemcachedClient.Append(System.String,System.Byte[],System.Int32,System.Int32,MemcachedSharp.MemcachedStorageOptions)">
+            <summary>
+            Appends the specified data to an object in Memcached if the object exists for the given <paramref name="key"/>.
+            </summary>
+            <param name="key">The key of the item to append to. Must be between 1 and 250 characters and may not contain whitespace or control characters.</param>
+            <param name="buffer">A <c>byte</c>[] containing the data to be stored in Memcached.</param>
+            <param name="offset">The point in <paramref name="buffer"/> at which the data to store begins.</param>
+            <param name="count">The number of bytes in <paramref name="buffer"/> to store.</param>
+            <param name="options">Optional options to pass to Memcached.</param>
+            <returns>A task that completes with <c>true</c> if the item existed and was appended, <c>false</c> if no item existed for that key, or completes unsuccessfully otherwise.</returns>
+        </member>
+        <member name="M:MemcachedSharp.MemcachedClient.Prepend(System.String,System.Byte[],MemcachedSharp.MemcachedStorageOptions)">
+            <summary>
+            Prepends the specified <paramref name="value"/> to an object in Memcached if the object exists for the given <paramref name="key"/>.
+            </summary>
+            <param name="key">The key of the item to prepend to. Must be between 1 and 250 characters and may not contain whitespace or control characters.</param>
+            <param name="value">A <c>byte</c>[] containing the data to be stored in Memcached.</param>
+            <param name="options">Optional options to pass to Memcached.</param>
+            <returns>A task that completes with <c>true</c> if the item existed and was prepended, <c>false</c> if no item existed for that key, or completes unsuccessfully otherwise.</returns>
+        </member>
+        <member name="M:MemcachedSharp.MemcachedClient.Prepend(System.String,System.Byte[],System.Int32,System.Int32,MemcachedSharp.MemcachedStorageOptions)">
+            <summary>
+            Prepends the specified data to an object in Memcached if the object exists for the given <paramref name="key"/>.
+            </summary>
+            <param name="key">The key of the item to prepend to. Must be between 1 and 250 characters and may not contain whitespace or control characters.</param>
+            <param name="buffer">A <c>byte</c>[] containing the data to be stored in Memcached.</param>
+            <param name="offset">The point in <paramref name="buffer"/> at which the data to store begins.</param>
+            <param name="count">The number of bytes in <paramref name="buffer"/> to store.</param>
+            <param name="options">Optional options to pass to Memcached.</param>
+            <returns>A task that completes with <c>true</c> if the item existed and was prepended, <c>false</c> if no item existed for that key, or completes unsuccessfully otherwise.</returns>
+        </member>
+        <member name="M:MemcachedSharp.MemcachedClient.Increment(System.String,System.UInt64)">
+            <summary>
+            Increments a counter value in Memcached by the specified <paramref name="value"/> or returns <c>null</c> if the counter value doesn't already exist.
+            </summary>
+            <param name="key">The key of the item to increment. Must be between 1 and 250 characters and may not contain whitespace or control characters.</param>
+            <param name="value">The amount to increment by.</param>
+            <returns>A task that completes with the value of the counter after the increment, or <c>null</c> if no value exists with that key, or a task that completes unsuccessfully otherwise.</returns>
+        </member>
+        <member name="M:MemcachedSharp.MemcachedClient.Decrement(System.String,System.UInt64)">
+            <summary>
+            Decrements a counter value in Memcached by the specified <paramref name="value"/> or returns <c>null</c> if the counter value doesn't already exist.
+            </summary>
+            <param name="key">The key of the item to decrement. Must be between 1 and 250 characters and may not contain whitespace or control characters.</param>
+            <param name="value">The amount to decrement by.</param>
+            <returns>A task that completes with the value of the counter after the decrement, or <c>null</c> if no value exists with that key, or a task that completes unsuccessfully otherwise.</returns>
+        </member>
+        <member name="M:MemcachedSharp.MemcachedClient.Cas(System.String,System.Int64,System.Byte[],MemcachedSharp.MemcachedStorageOptions)">
+            <summary>
+            Stores the specified <paramref name="value"/> in Memcached if the object exists and the specified <paramref name="casUnique"/> flag matches the value in Memcached.
+            </summary>
+            <param name="key">The key of the item to store. Must be between 1 and 250 characters and may not contain whitespace or control characters.</param>
+            <param name="casUnique">The cas unique value of the object previously retrieved from Memcached via <see cref="M:MemcachedSharp.MemcachedClient.Gets(System.String)"/>. See <see cref="P:MemcachedSharp.MemcachedItem.CasUnique"/>.</param>
+            <param name="value">A <c>byte</c>[] containing the data to be stored in Memcached if the compare succeeds.</param>
+            <param name="options">Optional options to pass to Memcached.</param>
+            <returns>
+                <para>A task that completes successfully with a <see cref="T:MemcachedSharp.CasResult"/> or faults in the event of a failure.</para>
+            </returns>
+        </member>
+        <member name="M:MemcachedSharp.MemcachedClient.Cas(System.String,System.Int64,System.Byte[],System.Int32,System.Int32,MemcachedSharp.MemcachedStorageOptions)">
+            <summary>
+            Stores the specified data in Memcached if the object exists and the specified <paramref name="casUnique"/> flag matches the value in Memcached.
+            </summary>
+            <param name="key">The key of the item to store. Must be between 1 and 250 characters and may not contain whitespace or control characters.</param>
+            <param name="casUnique">The cas unique value of the object previously retrieved from Memcached via <see cref="M:MemcachedSharp.MemcachedClient.Gets(System.String)"/>. See <see cref="P:MemcachedSharp.MemcachedItem.CasUnique"/>.</param>
+            <param name="buffer">A <c>byte</c>[] containing the data to be stored in Memcached if the compare succeeds.</param>
+            <param name="offset">The point in <paramref name="buffer"/> at which the data to store begins.</param>
+            <param name="count">The number of bytes in <paramref name="buffer"/> to store.</param>
+            <param name="options">Optional options to pass to Memcached.</param>
+            <returns>
+                <para>A task that completes successfully with a <see cref="T:MemcachedSharp.CasResult"/> or faults in the event of a failure.</para>
+            </returns>
+        </member>
+        <member name="M:MemcachedSharp.MemcachedClient.Delete(System.String)">
+            <summary>
+            Deletes a value with the specified <paramref name="key"/> from Memcached.
+            </summary>
+            <param name="key">The key of the item to delete. Must be between 1 and 250 characters and may not contain whitespace or control characters.</param>
+            <returns>A task that completes when the operation finishes successfully or faults in the event of a failure.</returns>
+        </member>
+        <member name="M:MemcachedSharp.MemcachedClient.Dispose">
+            <summary>
+            Closes all connections to Memcached and cleans up any other resources that may be in use.
+            </summary>
+        </member>
+        <member name="T:MemcachedSharp.MemcachedException">
+            <summary>
+            Represents errors that occur that are related to Memcached.
+            </summary>
+        </member>
+        <member name="T:MemcachedSharp.MemcachedItem">
+            <summary>
+            Encapsulates a response object from Memcached.
+            </summary>
+        </member>
+        <member name="P:MemcachedSharp.MemcachedItem.Key">
+            <summary>
+            Gets the key of the object retrieved from Memcached;
+            </summary>
+        </member>
+        <member name="P:MemcachedSharp.MemcachedItem.Flags">
+            <summary>
+            Gets the flags value of the object retrieved from Memcached.
+            </summary>
+        </member>
+        <member name="P:MemcachedSharp.MemcachedItem.Size">
+            <summary>
+            Gets the size of the object retrieved from Memcached.
+            </summary>
+        </member>
+        <member name="P:MemcachedSharp.MemcachedItem.CasUnique">
+            <summary>
+            Gets the cas unique field of the object retrieved from Memcached.
+            </summary>
+        </member>
+        <member name="P:MemcachedSharp.MemcachedItem.Data">
+            <summary>
+            Gets a <c>Stream</c> of the data retrieved from Memcached.
+            </summary>
+        </member>
+        <member name="T:MemcachedSharp.MemcachedOptions">
+            <summary>
+            Encapsulates options for <see cref="T:MemcachedSharp.MemcachedClient"/>.
+            </summary>
+        </member>
+        <member name="M:MemcachedSharp.MemcachedOptions.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:MemcachedSharp.MemcachedOptions"/> class.
+            </summary>
+        </member>
+        <member name="P:MemcachedSharp.MemcachedOptions.ConnectTimeout">
+            <summary>
+            Gets or sets the amount of time to wait before abandoning an attempt to connect to a Memcached host.
+            2 seconds by default.
+            </summary>
+        </member>
+        <member name="P:MemcachedSharp.MemcachedOptions.ReceiveTimeout">
+            <summary>
+            Gets or sets the amount of time to wait before abandoning an attempt to receive more data from a Memcached host.
+            2 seconds by default.
+            </summary>
+        </member>
+        <member name="P:MemcachedSharp.MemcachedOptions.EnablePipelining">
+            <summary>
+            Gets or sets a value that enables pipelining multiple requests on the same connections. <c>true</c> by default.
+            </summary>
+        </member>
+        <member name="P:MemcachedSharp.MemcachedOptions.MaxConcurrentRequestPerConnection">
+            <summary>
+            Gets or sets the maximum number of requests that may be sent at one time on the same connection.
+            Only applicable if <see cref="P:MemcachedSharp.MemcachedOptions.EnablePipelining"/> is <c>true</c>.
+            15 by default.
+            </summary>
+        </member>
+        <member name="P:MemcachedSharp.MemcachedOptions.MaxConnections">
+            <summary>
+            Gets or sets the maximum number of connections that may be opened at one time for the target <see cref="T:MemcachedSharp.MemcachedClient"/> instance.
+            </summary>
+        </member>
+        <member name="T:MemcachedSharp.MemcachedStorageOptions">
+            <summary>
+            Encapsulates options for storage operations in Memcached.
+            </summary>
+        </member>
+        <member name="P:MemcachedSharp.MemcachedStorageOptions.Flags">
+            <summary>
+            Gets or sets the flags field on the object to store in Memcached.
+            </summary>
+        </member>
+        <member name="P:MemcachedSharp.MemcachedStorageOptions.ExpirationTime">
+            <summary>
+            Gets or sets the expires field on the object to store in Memcached.
+            </summary>
+        </member>
+        <member name="T:MemcachedSharp.PoolCreationException">
+            <summary>
+            Represents errors that happen when a pool fails to create an item.
+            </summary>
+        </member>
+    </members>
+</doc>

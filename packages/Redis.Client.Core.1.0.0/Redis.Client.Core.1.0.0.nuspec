@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Redis.Client.Core</id>
+    <version>1.0.0</version>
+    <authors>Vladimir Kalinkin</authors>
+    <owners>Vladimir Kalinkin</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Basic client for Redis</description>
+    <tags>Redis c#</tags>
+  </metadata>
+</package>
