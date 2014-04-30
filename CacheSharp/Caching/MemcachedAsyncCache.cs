@@ -34,7 +34,7 @@ namespace CacheSharp.Caching
             client.Dispose();
         }
 
-        protected override async Task Put(string key, string value, TimeSpan lifeSpan)
+        protected internal override async Task Put(string key, string value, TimeSpan lifeSpan)
         {
             byte[] bytes = Encoding.UTF8.GetBytes(value);
 
@@ -46,7 +46,7 @@ namespace CacheSharp.Caching
             });
         }
 
-        protected override async Task<string> Get(string key)
+        protected internal override async Task<string> Get(string key)
         {
             MemcachedItem result = await client.Get(key);
             if (result == null)
@@ -55,7 +55,7 @@ namespace CacheSharp.Caching
             return await sr.ReadToEndAsync();
         }
 
-        protected override async Task Remove(string key)
+        protected internal override async Task Remove(string key)
         {
             await client.Delete(key);
         }

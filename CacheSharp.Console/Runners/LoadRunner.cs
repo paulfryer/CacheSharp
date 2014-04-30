@@ -110,15 +110,14 @@ namespace CacheSharp.Console.Runners
                         string key = "Key" + x;
                         var value = sb.ToString();
                         if (TestOperations.Contains("Put"))
-                            await
-                                (cache as IAsyncCache<string>).PutAsync(key, value,
+                            await cache.PutAsync(key, value,
                                     TimeSpan.FromMinutes(5));
 
                         if (TestOperations.Contains("Get"))
-                            await (cache as IAsyncCache<string>).GetAsync(key);
+                            await cache.GetAsync(key);
 
                         if (TestOperations.Contains("Remove"))
-                            await (cache as IAsyncCache<string>).RemoveAsync(key);
+                            await cache.RemoveAsync(key);
                     }
                 };
                 actions.Add(Task.Run(action));

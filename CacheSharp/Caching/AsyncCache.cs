@@ -21,7 +21,7 @@ namespace CacheSharp.Caching
 
         public abstract List<string> InitializationProperties { get; }
 
-        async Task IAsyncCache<T>.PutAsync(string key, T value, TimeSpan lifeSpan)
+        public async Task PutAsync(string key, T value, TimeSpan lifeSpan)
         {
             if (PrePut != null)
                 PrePut(this, new PutEventArgs<T>(key, value, lifeSpan));
@@ -30,7 +30,7 @@ namespace CacheSharp.Caching
                 PostPut(this, new PutEventArgs<T>(key, value, lifeSpan));
         }
 
-        async Task<T> IAsyncCache<T>.GetAsync(string key)
+        public async Task<T> GetAsync(string key)
         {
             if (PreGet != null)
                 PreGet(this, new CacheEventArgs(key));
@@ -40,7 +40,7 @@ namespace CacheSharp.Caching
             return value;
         }
 
-        async Task IAsyncCache<T>.RemoveAsync(string key)
+        public async Task RemoveAsync(string key)
         {
             if (PreRemove != null)
                 PreRemove(this, new CacheEventArgs(key));
@@ -49,9 +49,9 @@ namespace CacheSharp.Caching
                 PostRemove(this, new CacheEventArgs(key));
         }
 
-        protected abstract Task Put(string key, T value, TimeSpan lifeSpan);
-        protected abstract Task<T> Get(string key);
-        protected abstract Task Remove(string key);
+        protected internal abstract Task Put(string key, T value, TimeSpan lifeSpan);
+        protected internal abstract Task<T> Get(string key);
+        protected internal abstract Task Remove(string key);
 
         public event EventHandler<PutEventArgs<T>> PrePut;
         public event EventHandler<PutEventArgs<T>> PostPut;

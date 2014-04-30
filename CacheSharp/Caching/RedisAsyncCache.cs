@@ -22,17 +22,17 @@ namespace CacheSharp.Caching
             get { return new List<string> {"Endpoint"}; }
         }
 
-        protected override async Task Put(string key, string value, TimeSpan lifeSpan)
+        protected internal override async Task Put(string key, string value, TimeSpan lifeSpan)
         {
             await db.StringSetAsync(key, value, lifeSpan);
         }
 
-        protected override async Task<string> Get(string key)
+        protected internal override async Task<string> Get(string key)
         {
             return await db.StringGetAsync(key);
         }
 
-        protected override async Task Remove(string key)
+        protected internal override async Task Remove(string key)
         {
             await db.KeyDeleteAsync(key);
         }

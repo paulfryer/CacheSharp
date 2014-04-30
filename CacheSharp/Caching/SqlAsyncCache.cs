@@ -29,7 +29,7 @@ namespace CacheSharp.Caching
             get { return new List<string>{"ConnectionString", "CharactersPerMessage"}; }
         }
 
-        protected override async Task Put(string key, string value, TimeSpan lifeSpan)
+        protected internal override async Task Put(string key, string value, TimeSpan lifeSpan)
         {
             try
             {
@@ -57,7 +57,7 @@ namespace CacheSharp.Caching
 
         }
 
-        protected override async Task<string> Get(string key)
+        protected internal override async Task<string> Get(string key)
         {
             try
             {
@@ -99,7 +99,7 @@ namespace CacheSharp.Caching
             }
         }
 
-        protected override async Task Remove(string key)
+        protected internal override async Task Remove(string key)
         {
             try
             {
