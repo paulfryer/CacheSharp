@@ -1,4 +1,4 @@
-﻿namespace CacheSharp.Events
+﻿namespace CacheSharp
 {
     public class GetEventArgs<T> : CacheEventArgs
     {

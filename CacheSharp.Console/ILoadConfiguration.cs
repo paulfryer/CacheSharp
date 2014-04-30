@@ -1,4 +1,4 @@
-﻿namespace CacheSharp.Console.Configuration
+﻿namespace CacheSharp.Console
 {
     public interface ILoadConfiguration
     {

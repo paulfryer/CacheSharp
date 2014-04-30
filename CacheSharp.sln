@@ -7,6 +7,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CacheSharp", "CacheSharp\Ca
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CacheSharp.Console", "CacheSharp.Console\CacheSharp.Console.csproj", "{A51ECFDF-E594-4C93-A1D9-77C2962F1767}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CacheSharp.Memcached", "CacheSharp.Memcached\CacheSharp.Memcached.csproj", "{C1265A08-0533-4794-8426-651F305603FB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CacheSharp.Redis", "CacheSharp.Redis\CacheSharp.Redis.csproj", "{3D8FFDD1-BD81-4F09-80BB-B81CE80DFD32}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CacheSharp.SQLServer", "CacheSharp.SQLServer\CacheSharp.SQLServer.csproj", "{AF9888C0-EAD1-41EA-954E-8A763B03FEF7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +27,18 @@ Global
 		{A51ECFDF-E594-4C93-A1D9-77C2962F1767}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A51ECFDF-E594-4C93-A1D9-77C2962F1767}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A51ECFDF-E594-4C93-A1D9-77C2962F1767}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1265A08-0533-4794-8426-651F305603FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1265A08-0533-4794-8426-651F305603FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1265A08-0533-4794-8426-651F305603FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1265A08-0533-4794-8426-651F305603FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D8FFDD1-BD81-4F09-80BB-B81CE80DFD32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D8FFDD1-BD81-4F09-80BB-B81CE80DFD32}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D8FFDD1-BD81-4F09-80BB-B81CE80DFD32}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D8FFDD1-BD81-4F09-80BB-B81CE80DFD32}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF9888C0-EAD1-41EA-954E-8A763B03FEF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF9888C0-EAD1-41EA-954E-8A763B03FEF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF9888C0-EAD1-41EA-954E-8A763B03FEF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF9888C0-EAD1-41EA-954E-8A763B03FEF7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

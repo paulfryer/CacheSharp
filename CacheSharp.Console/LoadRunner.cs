@@ -7,26 +7,23 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
-using CacheSharp.Caching;
-using CacheSharp.Console.Configuration;
 
-namespace CacheSharp.Console.Runners
+namespace CacheSharp.Console
 {
-    public sealed class LoadRunner<TCache> where TCache : AsyncCache<string>, new()
+    public sealed class LoadRunner<TCache>
+        where TCache : IAsyncCache<string>, IInitializable, new()
     {
-
         // 15 second interval.
-        readonly System.Timers.Timer timer = new System.Timers.Timer(15 * 1000);
-
 
 
         private readonly ILoadConfiguration loadConfiguration;
-        private readonly string thingSpeakApiKey;
 
         private readonly ConcurrentDictionary<string, ConcurrentDictionary<long, int>> metrics =
             new ConcurrentDictionary<string, ConcurrentDictionary<long, int>>();
 
         private readonly object o = new object();
+        private readonly string thingSpeakApiKey;
+        private readonly Timer timer = new Timer(15*1000);
 
         public LoadRunner(ILoadConfiguration loadConfiguration, string thingSpeakApiKey)
         {
@@ -40,6 +37,14 @@ namespace CacheSharp.Console.Runners
             }
         }
 
+        public IList<string> TestOperations
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["TestOperations"].Split(',').Select(op => op.Trim()).ToList();
+            }
+        }
+
         private int GetMetricAverage(string metric, TimeSpan timeSpan)
         {
             if (!metrics.ContainsKey(metric))
@@ -47,9 +52,8 @@ namespace CacheSharp.Console.Runners
 
             int seconds = Convert.ToInt32(DateTime.UtcNow.Subtract(new DateTime(2000, 1, 1)).TotalSeconds);
 
-            
 
-            var value =
+            int value =
                 Convert.ToInt32(metrics[metric].Where(d => d.Key >= seconds - timeSpan.TotalSeconds)
                     .Select(d => d.Value)
                     .Average());
@@ -57,26 +61,22 @@ namespace CacheSharp.Console.Runners
             return value;
         }
 
-        void timer_Elapsed(object sender, ElapsedEventArgs e)
+        private void timer_Elapsed(object sender, ElapsedEventArgs e)
         {
             using (var wc = new WebClient())
             {
                 const int seconds = 15;
-                var puts = GetMetricAverage("Put", TimeSpan.FromSeconds(seconds));
-                var gets = GetMetricAverage("Get", TimeSpan.FromSeconds(seconds));
-                var removes = GetMetricAverage("Remove", TimeSpan.FromSeconds(seconds));
-                var total = puts + gets + removes;
-                var url = string.Format("http://api.thingspeak.com/update?key={0}&field1={1}&field2={2}&field3={3}&field4={4}",
-                    thingSpeakApiKey, total, puts, gets, removes);
+                int puts = GetMetricAverage("Put", TimeSpan.FromSeconds(seconds));
+                int gets = GetMetricAverage("Get", TimeSpan.FromSeconds(seconds));
+                int removes = GetMetricAverage("Remove", TimeSpan.FromSeconds(seconds));
+                int total = puts + gets + removes;
+                string url =
+                    string.Format(
+                        "http://api.thingspeak.com/update?key={0}&field1={1}&field2={2}&field3={3}&field4={4}",
+                        thingSpeakApiKey, total, puts, gets, removes);
                 wc.DownloadString(new Uri(url));
             }
         }
-
-        public IList<string> TestOperations
-        {
-            get { return ConfigurationManager.AppSettings["TestOperations"].Split(',').Select(op=>op.Trim()).ToList(); }
-        }
-
 
 
         public async Task Run()
@@ -84,23 +84,26 @@ namespace CacheSharp.Console.Runners
             var actions = new List<Task>();
             for (int i = 0; i < loadConfiguration.ParallelInstances; i++)
             {
-                var cache = new TCache();
+                var targetCache = new TCache();
 
-                var initializationProperties = cache.InitializationProperties.ToDictionary(
-                    initializationProperty => initializationProperty, 
-                    initializationProperty => ConfigurationManager.AppSettings[cache.ProviderName + "." + initializationProperty]);
+                Dictionary<string, string> initializationProperties = targetCache.InitializationProperties.ToDictionary(
+                    initializationProperty => initializationProperty,
+                    initializationProperty =>
+                        ConfigurationManager.AppSettings[targetCache.ProviderName + "." + initializationProperty]);
 
-                await cache.InitializeAsync(initializationProperties);
+                await targetCache.InitializeAsync(initializationProperties);
 
-                cache.PrePut += (sender, args) => UpdateMetric("Put");
-                cache.PreGet += (sender, args) => UpdateMetric("Get");
-                cache.PostRemove += (sender, args) => UpdateMetric("Remove");
+                var eventableCache = new EventableAsyncCache<string>(targetCache);
+
+                eventableCache.PrePut += (sender, args) => UpdateMetric("Put");
+                eventableCache.PreGet += (sender, args) => UpdateMetric("Get");
+                eventableCache.PostRemove += (sender, args) => UpdateMetric("Remove");
 
                 Action action = async () =>
                 {
                     for (int x = 0; x < loadConfiguration.IterationsPerInstance; x++)
                     {
-                        var characters = loadConfiguration.CharactersPerMessage;
+                        int characters = loadConfiguration.CharactersPerMessage;
 
                         var sb = new StringBuilder();
                         for (int c = 0; c < characters; c++)
@@ -108,16 +111,16 @@ namespace CacheSharp.Console.Runners
 
 
                         string key = "Key" + x;
-                        var value = sb.ToString();
+                        string value = sb.ToString();
                         if (TestOperations.Contains("Put"))
-                            await cache.PutAsync(key, value,
-                                    TimeSpan.FromMinutes(5));
+                            await eventableCache.PutAsync(key, value,
+                                TimeSpan.FromMinutes(5));
 
                         if (TestOperations.Contains("Get"))
-                            await cache.GetAsync(key);
+                            await eventableCache.GetAsync(key);
 
                         if (TestOperations.Contains("Remove"))
-                            await cache.RemoveAsync(key);
+                            await eventableCache.RemoveAsync(key);
                     }
                 };
                 actions.Add(Task.Run(action));
@@ -144,7 +147,6 @@ namespace CacheSharp.Console.Runners
                             System.Console.Write(" ");
                         System.Console.Write(metricKey + ": " + countPerSecond);
                     }
-
                 }
             }
             else metrics[metricKey][seconds]++;

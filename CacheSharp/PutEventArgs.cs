@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CacheSharp.Events
+namespace CacheSharp
 {
     public class PutEventArgs<T> : CacheEventArgs
     {

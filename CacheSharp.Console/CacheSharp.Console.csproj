@@ -45,16 +45,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Configuration\FileLoadConfiguration.cs" />
-    <Compile Include="Configuration\ILoadConfiguration.cs" />
+    <Compile Include="FileLoadConfiguration.cs" />
+    <Compile Include="ILoadConfiguration.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Runners\LoadRunner.cs" />
+    <Compile Include="LoadRunner.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CacheSharp.Memcached\CacheSharp.Memcached.csproj">
+      <Project>{C1265A08-0533-4794-8426-651F305603FB}</Project>
+      <Name>CacheSharp.Memcached</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CacheSharp.Redis\CacheSharp.Redis.csproj">
+      <Project>{3D8FFDD1-BD81-4F09-80BB-B81CE80DFD32}</Project>
+      <Name>CacheSharp.Redis</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CacheSharp.SQLServer\CacheSharp.SQLServer.csproj">
+      <Project>{AF9888C0-EAD1-41EA-954E-8A763B03FEF7}</Project>
+      <Name>CacheSharp.SQLServer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CacheSharp\CacheSharp.csproj">
       <Project>{5E10A3B2-09D3-43B6-8C75-C7EDEFE36F75}</Project>
       <Name>CacheSharp</Name>

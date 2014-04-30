@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Configuration;
-using CacheSharp.Caching;
-using CacheSharp.Console.Configuration;
-using CacheSharp.Console.Runners;
+using CacheSharp.Memcached;
+using CacheSharp.Redis;
+using CacheSharp.SQLServer;
 
 namespace CacheSharp.Console
 {

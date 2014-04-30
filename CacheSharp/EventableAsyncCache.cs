@@ -1,31 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using CacheSharp.Events;
 
-namespace CacheSharp.Caching
+namespace CacheSharp
 {
-    public abstract class AsyncCache<T> : IAsyncCache<T>, IDisposable
+    public sealed class EventableAsyncCache<T> : IAsyncCache<T>, IInitializable, ICacheEventable<T>
     {
-        public abstract Task InitializeAsync(Dictionary<string, string> parameters);
+        private readonly IAsyncCache<T> targetCache;
 
-        public virtual string ProviderName
+        public EventableAsyncCache(IAsyncCache<T> targetCache)
         {
-            get { return GetType().Name.Replace("AsyncCache", string.Empty); }
+            this.targetCache = targetCache;
         }
-
-        public virtual string CacheName
-        {
-            get { return "Default"; }
-        }
-
-        public abstract List<string> InitializationProperties { get; }
 
         public async Task PutAsync(string key, T value, TimeSpan lifeSpan)
         {
             if (PrePut != null)
                 PrePut(this, new PutEventArgs<T>(key, value, lifeSpan));
-            await Put(key, value, lifeSpan);
+            await targetCache.PutAsync(key, value, lifeSpan);
             if (PostPut != null)
                 PostPut(this, new PutEventArgs<T>(key, value, lifeSpan));
         }
@@ -34,7 +26,7 @@ namespace CacheSharp.Caching
         {
             if (PreGet != null)
                 PreGet(this, new CacheEventArgs(key));
-            T value = await Get(key);
+            T value = await targetCache.GetAsync(key);
             if (PostGet != null)
                 PostGet(this, new GetEventArgs<T>(key));
             return value;
@@ -44,14 +36,10 @@ namespace CacheSharp.Caching
         {
             if (PreRemove != null)
                 PreRemove(this, new CacheEventArgs(key));
-            await Remove(key);
+            await targetCache.RemoveAsync(key);
             if (PostRemove != null)
                 PostRemove(this, new CacheEventArgs(key));
         }
-
-        protected internal abstract Task Put(string key, T value, TimeSpan lifeSpan);
-        protected internal abstract Task<T> Get(string key);
-        protected internal abstract Task Remove(string key);
 
         public event EventHandler<PutEventArgs<T>> PrePut;
         public event EventHandler<PutEventArgs<T>> PostPut;
@@ -62,9 +50,30 @@ namespace CacheSharp.Caching
         public event EventHandler<CacheEventArgs> PreRemove;
         public event EventHandler<CacheEventArgs> PostRemove;
 
-        public virtual void Dispose()
+        public async Task InitializeAsync(Dictionary<string, string> parameters)
         {
-            // optional method to implement.
+            if (targetCache is IInitializable)
+                await (targetCache as IInitializable).InitializeAsync(parameters);
+        }
+
+        public string ProviderName
+        {
+            get
+            {
+                if (targetCache is IInitializable)
+                    return (targetCache as IInitializable).ProviderName;
+                return targetCache.GetType().Name;
+            }
+        }
+
+        public List<string> InitializationProperties
+        {
+            get
+            {
+                if (targetCache is IInitializable)
+                    return (targetCache as IInitializable).InitializationProperties;
+                return new List<string>();
+            }
         }
     }
 }

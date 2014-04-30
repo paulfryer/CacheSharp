@@ -5,31 +5,13 @@ using System.Data.Common;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 
-namespace CacheSharp.Caching
+namespace CacheSharp.SQLServer
 {
-    public sealed class SqlAsyncCache : AsyncCache<string>
+    public sealed class SqlAsyncCache : IAsyncCache<string>, IInitializable, IDisposable
     {
         private DbConnection conn;
 
-        public override async Task InitializeAsync(Dictionary<string, string> parameters)
-        {
-            string connString = parameters["ConnectionString"];
-            conn = new SqlConnection(connString);
-            await conn.OpenAsync();
-        }
-
-        public override void Dispose()
-        {
-            conn.Close();
-            conn.Dispose();
-        }
-
-        public override List<string> InitializationProperties
-        {
-            get { return new List<string>{"ConnectionString", "CharactersPerMessage"}; }
-        }
-
-        protected internal override async Task Put(string key, string value, TimeSpan lifeSpan)
+        public async Task PutAsync(string key, string value, TimeSpan lifeSpan)
         {
             try
             {
@@ -54,10 +36,9 @@ namespace CacheSharp.Caching
                     command.ExecuteNonQuery();
                 }
             }
-
         }
 
-        protected internal override async Task<string> Get(string key)
+        public async Task<string> GetAsync(string key)
         {
             try
             {
@@ -74,7 +55,7 @@ namespace CacheSharp.Caching
                 getCommand.CommandType = CommandType.StoredProcedure;
                 await getCommand.ExecuteNonQueryAsync();
                 string value = outValue.SqlValue.ToString();
-                return value;   
+                return value;
             }
             catch (SqlException sqlException)
             {
@@ -93,13 +74,13 @@ namespace CacheSharp.Caching
                     getCommand.CommandType = CommandType.StoredProcedure;
                     getCommand.ExecuteNonQuery();
                     string value = outValue.SqlValue.ToString();
-                    return value;   
+                    return value;
                 }
                 throw;
             }
         }
 
-        protected internal override async Task Remove(string key)
+        public async Task RemoveAsync(string key)
         {
             try
             {
@@ -120,7 +101,29 @@ namespace CacheSharp.Caching
                     command.ExecuteNonQuery();
                 }
             }
+        }
 
+        public void Dispose()
+        {
+            conn.Close();
+            conn.Dispose();
+        }
+
+        public async Task InitializeAsync(Dictionary<string, string> parameters)
+        {
+            string connString = parameters["ConnectionString"];
+            conn = new SqlConnection(connString);
+            await conn.OpenAsync();
+        }
+
+        public List<string> InitializationProperties
+        {
+            get { return new List<string> {"ConnectionString", "CharactersPerMessage"}; }
+        }
+
+        public string ProviderName
+        {
+            get { return "Sql"; }
         }
     }
 }
