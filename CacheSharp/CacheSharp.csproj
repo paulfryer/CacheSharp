@@ -47,11 +47,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EventableAsyncCache.cs" />
+    <Compile Include="IAsyncCache.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="ICacheEventable.cs" />
     <Compile Include="IInitializable.cs" />
     <Compile Include="CacheEventArgs.cs" />
     <Compile Include="GetEventArgs.cs" />
-    <Compile Include="IAsyncCache.cs" />
     <Compile Include="PutEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
