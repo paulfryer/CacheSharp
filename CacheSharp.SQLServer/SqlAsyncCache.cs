@@ -27,6 +27,7 @@ namespace CacheSharp.SQLServer
             {
                 if (sqlException.Number == 41301)
                 {
+                    // TODO: think about a recursive try/get pattern here (to some max iterations setting).
                     DbCommand command = conn.CreateCommand();
                     command.CommandText = "PutAppState";
                     command.CommandType = CommandType.StoredProcedure;

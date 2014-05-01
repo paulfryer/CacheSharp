@@ -54,6 +54,7 @@ namespace CacheSharp.Memcached
                 MaxConnections = 8,
                 MaxConcurrentRequestPerConnection = 30
             });
+            
         }
 
         public void Dispose()

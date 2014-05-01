@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CacheSharp.Redis", "CacheSh
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CacheSharp.SQLServer", "CacheSharp.SQLServer\CacheSharp.SQLServer.csproj", "{AF9888C0-EAD1-41EA-954E-8A763B03FEF7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CacheSharp.Azure", "CacheSharp.Azure\CacheSharp.Azure.csproj", "{CCDF6BD9-2860-4091-9C6E-59486D29CD32}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{AF9888C0-EAD1-41EA-954E-8A763B03FEF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF9888C0-EAD1-41EA-954E-8A763B03FEF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AF9888C0-EAD1-41EA-954E-8A763B03FEF7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CCDF6BD9-2860-4091-9C6E-59486D29CD32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCDF6BD9-2860-4091-9C6E-59486D29CD32}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCDF6BD9-2860-4091-9C6E-59486D29CD32}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCDF6BD9-2860-4091-9C6E-59486D29CD32}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
