@@ -7,7 +7,10 @@
         }
 
         public T Value { get; set; }
-        public bool CacheHit { get; set; }
-        public bool CacheMiss { get; set; }
+
+        public bool CacheMiss
+        {
+            get { return Value == null; }
+        }
     }
 }
