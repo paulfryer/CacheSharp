@@ -16,7 +16,8 @@ namespace CacheSharp.Azure
 
         public async Task PutAsync(string key, string value, TimeSpan lifeSpan)
         {
-            await Task.Run(() => cache.Put(key, value, null, lifeSpan));
+
+            await Task.Run(()=>cache.Put(key, value, lifeSpan, CacheRegion));
         }
 
         public async Task<string> GetAsync(string key)
@@ -33,18 +34,22 @@ namespace CacheSharp.Azure
         public async Task InitializeAsync(Dictionary<string, string> parameters)
         {
             var cacheName = parameters["CacheName"];
-            cache = new DataCache(cacheName, cacheName);
-            return;
+            CacheRegion = parameters["CacheRegion"];
 
+            
+            cache = new DataCache(cacheName);
+            cache.CreateRegion(CacheRegion);
         }
 
         public List<string> InitializationProperties
         {
             get
             {
-                return new List<string>{"CacheName"};
+                return new List<string>{"CacheName", "CacheRegion"};
             }
         }
+
+        public string CacheRegion { get; set; }
 
         public string ProviderName { get { return "Azure"; } }
     }
