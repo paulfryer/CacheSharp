@@ -13,7 +13,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CacheSharp.Redis", "CacheSh
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CacheSharp.SQLServer", "CacheSharp.SQLServer\CacheSharp.SQLServer.csproj", "{AF9888C0-EAD1-41EA-954E-8A763B03FEF7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CacheSharp.Azure", "CacheSharp.Azure\CacheSharp.Azure.csproj", "{CCDF6BD9-2860-4091-9C6E-59486D29CD32}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{D1A8D38F-F225-4672-A06C-ECBF91D7134B}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
