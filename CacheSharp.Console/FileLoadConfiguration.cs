@@ -22,13 +22,7 @@ namespace CacheSharp.Console
 
         public int CharactersPerMessage
         {
-
-            get
-            {
-                return Convert.ToInt32(ConfigurationManager.AppSettings["CharactersPerMessage"]); 
-            }
-            
-
+            get { return Convert.ToInt32(ConfigurationManager.AppSettings["CharactersPerMessage"]); }
         }
     }
 }

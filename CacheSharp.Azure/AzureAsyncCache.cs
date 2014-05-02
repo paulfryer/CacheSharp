@@ -22,12 +22,16 @@ namespace CacheSharp.Azure
 
         public async Task<string> GetAsync(string key)
         {
-            return await Task.Run(() => cache.Get(key) as string);
+            return await Task.Run(() =>
+            {
+                var v = cache.Get(key, CacheRegion);
+                return v as string;
+            });
         }
 
         public async Task RemoveAsync(string key)
         {
-            await Task.Run(() => cache.Remove(key));
+            await Task.Run(() => cache.Remove(key, CacheRegion));
         }
 
         private DataCache cache;

@@ -117,7 +117,10 @@ namespace CacheSharp.Console
                                 TimeSpan.FromMinutes(5));
 
                         if (TestOperations.Contains("Get"))
-                            await eventableCache.GetAsync(key);
+                        {
+                            var xt = await eventableCache.GetAsync(key);
+                            //System.Console.WriteLine(xt);
+                        }
 
                         if (TestOperations.Contains("Remove"))
                             await eventableCache.RemoveAsync(key);
