@@ -22,6 +22,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{D1A8D3
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CacheSharp.Azure", "CacheSharp.Azure\CacheSharp.Azure.csproj", "{CCDF6BD9-2860-4091-9C6E-59486D29CD32}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CacheSharp.ASPNet", "CacheSharp.ASPNet\CacheSharp.ASPNet.csproj", "{6CBE4512-74FC-4D32-9F73-62DEE5584981}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -52,6 +54,10 @@ Global
 		{CCDF6BD9-2860-4091-9C6E-59486D29CD32}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CCDF6BD9-2860-4091-9C6E-59486D29CD32}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CCDF6BD9-2860-4091-9C6E-59486D29CD32}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6CBE4512-74FC-4D32-9F73-62DEE5584981}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CBE4512-74FC-4D32-9F73-62DEE5584981}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CBE4512-74FC-4D32-9F73-62DEE5584981}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CBE4512-74FC-4D32-9F73-62DEE5584981}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
