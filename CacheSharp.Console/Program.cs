@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Configuration;
 using CacheSharp.Azure;
+using CacheSharp.Coherence;
 using CacheSharp.Memcached;
 using CacheSharp.Redis;
 using CacheSharp.SQLServer;
@@ -29,6 +30,10 @@ namespace CacheSharp.Console
                 case "Azure":
                     (new LoadRunner<AzureAsyncCache>(new FileLoadConfiguration(),
                         ConfigurationManager.AppSettings["Azure.ThingSpeakWriteApiKey"])).Run().Wait();
+                    break;
+                case "Coherence":
+                    (new LoadRunner<CoherenceAsyncCache>(new FileLoadConfiguration(),
+                        ConfigurationManager.AppSettings["Coherence.ThingSpeakWriteApiKey"])).Run().Wait();
                     break;
                 default:
                     throw new Exception("Unsupported cache provider: " + configuration.CacheProvider);
