@@ -7,7 +7,6 @@ using Tangosol.Util.Filter;
 
 namespace CacheSharp.Coherence
 {
-
     // TODO: Need to test this still!
     public class CoherenceAsyncCache : IAsyncCache<string>, IInitializable
     {
