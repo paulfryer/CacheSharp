@@ -32,6 +32,9 @@ namespace CacheSharp.Coherence
         {
             string cacheName = parameters["CacheName"];
             cache = CacheFactory.GetCache(cacheName);
+            // TODO: figure out how this stuff works for real. This is just a guess.
+            cache.CacheService.Configure(CacheFactory.DefaultCacheConfig);
+            // follow directions here: http://docs.oracle.com/cd/E18686_01/coh.37/e18678/net_library.htm
         }
 
         public List<string> InitializationProperties
