@@ -7,9 +7,9 @@ namespace CacheSharp.ASPNet
 {
     public class CacheSharpSessionProvider : SessionStateStoreProviderBase
     { 
-        private readonly IAsyncCache<string> cache;
+        private readonly IAsyncCache cache;
 
-        public CacheSharpSessionProvider(IAsyncCache<string> cache)
+        public CacheSharpSessionProvider(IAsyncCache cache)
         {
             this.cache = cache;
         }
@@ -39,7 +39,7 @@ namespace CacheSharp.ASPNet
             lockId = null;
             actions = SessionStateActions.None;
             // try to get the session from cache.
-            string sessionString = cache.GetAsync(id).Result;
+            string sessionString = cache.GetAsync<string>(id).Result;
             if (string.IsNullOrEmpty(sessionString))
                 return null;
             var sessionItems = JsonConvert.DeserializeObject<SessionStateItemCollection>(sessionString);

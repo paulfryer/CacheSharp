@@ -4,31 +4,31 @@ using System.Threading.Tasks;
 
 namespace CacheSharp
 {
-    public sealed class EventableAsyncCache<T> : IAsyncCache<T>, IInitializable, ICacheEventable<T>
+    public sealed class EventableAsyncCache : IAsyncCache, IInitializable, ICacheEventable
     {
-        private readonly IAsyncCache<T> targetCache;
+        private readonly IAsyncCache targetCache;
 
-        public EventableAsyncCache(IAsyncCache<T> targetCache)
+        public EventableAsyncCache(IAsyncCache targetCache)
         {
             this.targetCache = targetCache;
         }
 
-        public async Task PutAsync(string key, T value, TimeSpan lifeSpan)
+        public async Task PutAsync<T>(string key, T value, TimeSpan lifeSpan)
         {
             if (PrePut != null)
-                PrePut(this, new PutEventArgs<T>(key, value, lifeSpan));
+                PrePut(this, new PutEventArgs(key, value, lifeSpan));
             await targetCache.PutAsync(key, value, lifeSpan);
             if (PostPut != null)
-                PostPut(this, new PutEventArgs<T>(key, value, lifeSpan));
+                PostPut(this, new PutEventArgs(key, value, lifeSpan));
         }
 
-        public async Task<T> GetAsync(string key)
+        public async Task<T> GetAsync<T>(string key)
         {
             if (PreGet != null)
                 PreGet(this, new CacheEventArgs(key));
-            T value = await targetCache.GetAsync(key);
+            T value = await targetCache.GetAsync<T>(key);
             if (PostGet != null)
-                PostGet(this, new GetEventArgs<T>(key));
+                PostGet(this, new GetEventArgs(key));
             return value;
         }
 
@@ -41,11 +41,11 @@ namespace CacheSharp
                 PostRemove(this, new CacheEventArgs(key));
         }
 
-        public event EventHandler<PutEventArgs<T>> PrePut;
-        public event EventHandler<PutEventArgs<T>> PostPut;
+        public event EventHandler<PutEventArgs> PrePut;
+        public event EventHandler<PutEventArgs> PostPut;
 
         public event EventHandler<CacheEventArgs> PreGet;
-        public event EventHandler<GetEventArgs<T>> PostGet;
+        public event EventHandler<GetEventArgs> PostGet;
 
         public event EventHandler<CacheEventArgs> PreRemove;
         public event EventHandler<CacheEventArgs> PostRemove;

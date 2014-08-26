@@ -2,13 +2,13 @@
 
 namespace CacheSharp
 {
-    public interface ICacheEventable<T>
+    public interface ICacheEventable
     {
-        event EventHandler<PutEventArgs<T>> PrePut;
-        event EventHandler<PutEventArgs<T>> PostPut;
+        event EventHandler<PutEventArgs> PrePut;
+        event EventHandler<PutEventArgs> PostPut;
 
         event EventHandler<CacheEventArgs> PreGet;
-        event EventHandler<GetEventArgs<T>> PostGet;
+        event EventHandler<GetEventArgs> PostGet;
 
         event EventHandler<CacheEventArgs> PreRemove;
         event EventHandler<CacheEventArgs> PostRemove;

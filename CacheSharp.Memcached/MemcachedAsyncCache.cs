@@ -4,10 +4,11 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using MemcachedSharp;
+using Newtonsoft.Json;
 
 namespace CacheSharp.Memcached
 {
-    public sealed class MemcachedAsyncCache : IAsyncCache<string>, IInitializable, IDisposable
+    public sealed class MemcachedAsyncCache : IAsyncCache, IInitializable, IDisposable
     {
         private MemcachedClient client;
 
@@ -18,24 +19,24 @@ namespace CacheSharp.Memcached
 
         public string ProviderName { get { return "Memcached"; } }
 
-        public async Task PutAsync(string key, string value, TimeSpan lifeSpan)
+        public async Task PutAsync<T>(string key, T value, TimeSpan lifeSpan)
         {
-            byte[] bytes = Encoding.UTF8.GetBytes(value);
-
-
+            var json = JsonConvert.SerializeObject(value);
+            byte[] bytes = Encoding.UTF8.GetBytes(json);
             await client.Set(key, bytes, new MemcachedStorageOptions
             {
                 ExpirationTime = lifeSpan
             });
         }
 
-        public async Task<string> GetAsync(string key)
+        public async Task<T> GetAsync<T>(string key) 
         {
             MemcachedItem result = await client.Get(key);
             if (result == null)
-                return null;
+                return default(T);
             var sr = new StreamReader(result.Data);
-            return await sr.ReadToEndAsync();
+            var json = await sr.ReadToEndAsync();
+            return JsonConvert.DeserializeObject<T>(json);
         }
 
         public async Task RemoveAsync(string key)

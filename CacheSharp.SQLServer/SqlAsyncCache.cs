@@ -4,14 +4,15 @@ using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace CacheSharp.SQLServer
 {
-    public sealed class SqlAsyncCache : IAsyncCache<string>, IInitializable, IDisposable
+    public sealed class SqlAsyncCache : IAsyncCache, IInitializable, IDisposable
     {
         private DbConnection conn;
 
-        public async Task PutAsync(string key, string value, TimeSpan lifeSpan)
+        public async Task PutAsync<T>(string key, T value, TimeSpan lifeSpan)
         {
             try
             {
@@ -39,10 +40,9 @@ namespace CacheSharp.SQLServer
             }
         }
 
-        public async Task<string> GetAsync(string key)
+        public async Task<T> GetAsync<T>(string key)
         {
-            try
-            {
+            
                 DbCommand getCommand = conn.CreateCommand();
                 getCommand.CommandText = "GetAppState";
                 getCommand.Parameters.Add(new SqlParameter("@KeyID", key));
@@ -55,30 +55,11 @@ namespace CacheSharp.SQLServer
                 getCommand.Parameters.Add(outValue);
                 getCommand.CommandType = CommandType.StoredProcedure;
                 await getCommand.ExecuteNonQueryAsync();
-                string value = outValue.SqlValue.ToString();
+                string json = outValue.SqlValue.ToString();
+                var value = JsonConvert.DeserializeObject<T>(json);
                 return value;
-            }
-            catch (SqlException sqlException)
-            {
-                if (sqlException.Number == 41301)
-                {
-                    DbCommand getCommand = conn.CreateCommand();
-                    getCommand.CommandText = "GetAppState";
-                    getCommand.Parameters.Add(new SqlParameter("@KeyID", key));
-                    var outValue = new SqlParameter
-                    {
-                        ParameterName = "@Value",
-                        Direction = ParameterDirection.Output,
-                        Size = 10000
-                    };
-                    getCommand.Parameters.Add(outValue);
-                    getCommand.CommandType = CommandType.StoredProcedure;
-                    getCommand.ExecuteNonQuery();
-                    string value = outValue.SqlValue.ToString();
-                    return value;
-                }
-                throw;
-            }
+            
+            
         }
 
         public async Task RemoveAsync(string key)

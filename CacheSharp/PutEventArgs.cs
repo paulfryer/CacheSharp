@@ -2,15 +2,15 @@
 
 namespace CacheSharp
 {
-    public class PutEventArgs<T> : CacheEventArgs
+    public class PutEventArgs : CacheEventArgs
     {
-        public PutEventArgs(string key, T value, TimeSpan lifeSpan) : base(key)
+        public PutEventArgs(string key, object value, TimeSpan lifeSpan) : base(key)
         {
             Value = value;
             LifeSpan = lifeSpan;
         }
 
-        public T Value { get; set; }
+        public object Value { get; set; }
         public TimeSpan LifeSpan { get; set; }
     }
 }

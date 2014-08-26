@@ -11,7 +11,7 @@ using System.Timers;
 namespace CacheSharp.Console
 {
     public sealed class LoadRunner<TCache>
-        where TCache : IAsyncCache<string>, IInitializable, new()
+        where TCache : IAsyncCache, IInitializable, new()
     {
         // 15 second interval.
 
@@ -93,7 +93,7 @@ namespace CacheSharp.Console
 
                 await targetCache.InitializeAsync(initializationProperties);
 
-                var eventableCache = new EventableAsyncCache<string>(targetCache);
+                var eventableCache = new EventableAsyncCache(targetCache);
 
                 eventableCache.PrePut += (sender, args) => UpdateMetric("Put");
                 eventableCache.PreGet += (sender, args) => UpdateMetric("Get");
@@ -118,7 +118,7 @@ namespace CacheSharp.Console
 
                         if (TestOperations.Contains("Get"))
                         {
-                            var xt = await eventableCache.GetAsync(key);
+                            var xt = await eventableCache.GetAsync<string>(key);
                             //System.Console.WriteLine(xt);
                         }
 

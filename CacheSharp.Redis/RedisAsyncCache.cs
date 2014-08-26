@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using StackExchange.Redis;
 
 namespace CacheSharp.Redis
 {
-    public sealed class RedisAsyncCache : IAsyncCache<string>, IInitializable
+    public sealed class RedisAsyncCache : IAsyncCache, IInitializable
     {
         private IDatabase db;
         
@@ -16,14 +17,18 @@ namespace CacheSharp.Redis
 
         public string ProviderName { get { return "Redis"; }}
 
-        public async Task PutAsync(string key, string value, TimeSpan lifeSpan)
+
+        public async Task PutAsync<T>(string key, T value, TimeSpan lifeSpan)
         {
-            await db.StringSetAsync(key, value, lifeSpan);
+            var stringValue = JsonConvert.SerializeObject(value);
+            await db.StringSetAsync(key, stringValue, lifeSpan);
         }
 
-        public async Task<string> GetAsync(string key)
+        public async Task<T> GetAsync<T>(string key)
         {
-            return await db.StringGetAsync(key);
+            var json = await db.StringGetAsync(key);
+            var value = JsonConvert.DeserializeObject<T>(json);
+            return value;
         }
 
         public async Task RemoveAsync(string key)
