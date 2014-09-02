@@ -51,7 +51,8 @@
     <Compile Include="RedisAsyncCache.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="CacheSharp.Redis.nupkg" />
+    <None Include="Nuget\CacheSharp.Redis.1.0.1.nupkg" />
+    <None Include="Nuget\CacheSharp.Redis.1.1.0.nupkg" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

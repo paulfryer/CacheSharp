@@ -6,7 +6,7 @@ using StackExchange.Redis;
 
 namespace CacheSharp.Redis
 {
-    public sealed class RedisAsyncCache : IAsyncCache, IInitializable, ISyncCache
+    public sealed class RedisCache : IAsyncCache, IInitializable, ISyncCache
     {
         private IDatabase db;
 

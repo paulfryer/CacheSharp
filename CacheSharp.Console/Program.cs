@@ -16,23 +16,23 @@ namespace CacheSharp.Console
             switch (configuration.CacheProvider)
             {
                 case "Redis":
-                    (new LoadRunner<RedisAsyncCache>(new FileLoadConfiguration(),
+                    (new LoadRunner<RedisCache>(new FileLoadConfiguration(),
                         ConfigurationManager.AppSettings["Redis.ThingSpeakWriteApiKey"])).Run().Wait();
                     break;
                 case "Memcached":
-                    (new LoadRunner<MemcachedAsyncCache>(new FileLoadConfiguration(),
+                    (new LoadRunner<MemcachedCache>(new FileLoadConfiguration(),
                         ConfigurationManager.AppSettings["Memcached.ThingSpeakWriteApiKey"])).Run().Wait();
                     break;
                 case "Sql":
-                    (new LoadRunner<SqlAsyncCache>(new FileLoadConfiguration(),
+                    (new LoadRunner<SqlCache>(new FileLoadConfiguration(),
                         ConfigurationManager.AppSettings["Sql.ThingSpeakWriteApiKey"])).Run().Wait();
                     break;
                 case "Azure":
-                    (new LoadRunner<AzureAsyncCache>(new FileLoadConfiguration(),
+                    (new LoadRunner<AzureCache>(new FileLoadConfiguration(),
                         ConfigurationManager.AppSettings["Azure.ThingSpeakWriteApiKey"])).Run().Wait();
                     break;
                 case "Coherence":
-                    (new LoadRunner<CoherenceAsyncCache>(new FileLoadConfiguration(),
+                    (new LoadRunner<CoherenceCache>(new FileLoadConfiguration(),
                         ConfigurationManager.AppSettings["Coherence.ThingSpeakWriteApiKey"])).Run().Wait();
                     break;
                 default:
