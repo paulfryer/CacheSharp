@@ -53,6 +53,7 @@
   <ItemGroup>
     <None Include="Nuget\CacheSharp.Redis.1.0.1.nupkg" />
     <None Include="Nuget\CacheSharp.Redis.1.1.0.nupkg" />
+    <None Include="Nuget\CacheSharp.Redis.1.2.0.nupkg" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
