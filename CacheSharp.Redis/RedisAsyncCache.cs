@@ -6,16 +6,9 @@ using StackExchange.Redis;
 
 namespace CacheSharp.Redis
 {
-    public sealed class RedisAsyncCache : IAsyncCache, IInitializable
+    public sealed class RedisAsyncCache : IAsyncCache, IInitializable, ISyncCache
     {
         private IDatabase db;
-        
-        public List<string> InitializationProperties
-        {
-            get { return new List<string> {"Endpoint"}; }
-        }
-
-        public string ProviderName { get { return "Redis"; }}
 
 
         public async Task PutAsync<T>(string key, T value, TimeSpan lifeSpan)
@@ -36,11 +29,39 @@ namespace CacheSharp.Redis
             await db.KeyDeleteAsync(key);
         }
 
+        public List<string> InitializationProperties
+        {
+            get { return new List<string> {"Endpoint"}; }
+        }
+
+        public string ProviderName
+        {
+            get { return "Redis"; }
+        }
+
         public async Task InitializeAsync(Dictionary<string, string> parameters)
         {
-            string endpoint = parameters["Endpoint"];
-            ConnectionMultiplexer redis = await ConnectionMultiplexer.ConnectAsync(endpoint);
+            var endpoint = parameters["Endpoint"];
+            var redis = await ConnectionMultiplexer.ConnectAsync(endpoint);
             db = redis.GetDatabase();
+        }
+
+        public void Put<T>(string key, T value, TimeSpan lifeSpan)
+        {
+            var stringValue = JsonConvert.SerializeObject(value);
+            db.StringSet(key, stringValue);
+        }
+
+        public T Get<T>(string key)
+        {
+            var json = db.StringGet(key);
+            var value = JsonConvert.DeserializeObject<T>(json);
+            return value;
+        }
+
+        public void Remove(string key)
+        {
+            db.KeyDelete(key);
         }
     }
 }

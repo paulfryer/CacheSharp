@@ -12,26 +12,19 @@ namespace CacheSharp.Memcached
     {
         private MemcachedClient client;
 
-        public List<string> InitializationProperties
-        {
-            get { return new List<string> {"Endpoint"}; }
-        }
-
-        public string ProviderName { get { return "Memcached"; } }
-
         public async Task PutAsync<T>(string key, T value, TimeSpan lifeSpan)
         {
             var json = JsonConvert.SerializeObject(value);
-            byte[] bytes = Encoding.UTF8.GetBytes(json);
+            var bytes = Encoding.UTF8.GetBytes(json);
             await client.Set(key, bytes, new MemcachedStorageOptions
             {
                 ExpirationTime = lifeSpan
             });
         }
 
-        public async Task<T> GetAsync<T>(string key) 
+        public async Task<T> GetAsync<T>(string key)
         {
-            MemcachedItem result = await client.Get(key);
+            var result = await client.Get(key);
             if (result == null)
                 return default(T);
             var sr = new StreamReader(result.Data);
@@ -44,9 +37,24 @@ namespace CacheSharp.Memcached
             await client.Delete(key);
         }
 
+        public void Dispose()
+        {
+            client.Dispose();
+        }
+
+        public List<string> InitializationProperties
+        {
+            get { return new List<string> {"Endpoint"}; }
+        }
+
+        public string ProviderName
+        {
+            get { return "Memcached"; }
+        }
+
         public async Task InitializeAsync(Dictionary<string, string> parameters)
         {
-            string endpoint = parameters["Endpoint"];
+            var endpoint = parameters["Endpoint"];
             client = new MemcachedClient(endpoint, new MemcachedOptions
             {
                 ConnectTimeout = TimeSpan.FromSeconds(2),
@@ -55,12 +63,6 @@ namespace CacheSharp.Memcached
                 MaxConnections = 8,
                 MaxConcurrentRequestPerConnection = 30
             });
-            
-        }
-
-        public void Dispose()
-        {
-            client.Dispose();
         }
     }
 }

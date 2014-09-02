@@ -54,6 +54,7 @@
     <Compile Include="IInitializable.cs" />
     <Compile Include="CacheEventArgs.cs" />
     <Compile Include="GetEventArgs.cs" />
+    <Compile Include="ISyncCache.cs" />
     <Compile Include="PutEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
