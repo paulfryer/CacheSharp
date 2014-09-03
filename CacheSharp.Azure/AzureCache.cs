@@ -6,25 +6,10 @@ using Newtonsoft.Json;
 
 namespace CacheSharp.Azure
 {
-    public class AzureCache : IAsyncCache, IInitializable, ISyncCache
+    public class AzureCache : ISyncCache, IInitializable
     {
         private DataCache cache;
         public string CacheRegion { get; set; }
-
-        public async Task PutAsync<T>(string key, T value, TimeSpan lifeSpan)
-        {
-            await Task.Run(() => Put(key, value, lifeSpan));
-        }
-
-        public async Task<T> GetAsync<T>(string key)
-        {
-            return await Task.Run(() => Get<T>(key));
-        }
-
-        public async Task RemoveAsync(string key)
-        {
-            await Task.Run(() => Remove(key));
-        }
 
         public async Task InitializeAsync(Dictionary<string, string> parameters)
         {

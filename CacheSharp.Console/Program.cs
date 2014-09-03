@@ -27,10 +27,11 @@ namespace CacheSharp.Console
                     (new LoadRunner<SqlCache>(new FileLoadConfiguration(),
                         ConfigurationManager.AppSettings["Sql.ThingSpeakWriteApiKey"])).Run().Wait();
                     break;
+                    /*
                 case "Azure":
                     (new LoadRunner<AzureCache>(new FileLoadConfiguration(),
                         ConfigurationManager.AppSettings["Azure.ThingSpeakWriteApiKey"])).Run().Wait();
-                    break;
+                    break;*/
                 case "Coherence":
                     (new LoadRunner<CoherenceCache>(new FileLoadConfiguration(),
                         ConfigurationManager.AppSettings["Coherence.ThingSpeakWriteApiKey"])).Run().Wait();

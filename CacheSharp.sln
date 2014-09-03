@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+VisualStudioVersion = 12.0.30501.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CacheSharp", "CacheSharp\CacheSharp.csproj", "{5E10A3B2-09D3-43B6-8C75-C7EDEFE36F75}"
 EndProject
@@ -25,6 +25,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CacheSharp.ASPNet", "CacheSharp.ASPNet\CacheSharp.ASPNet.csproj", "{6CBE4512-74FC-4D32-9F73-62DEE5584981}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CacheSharp.Coherence", "CacheSharp.Coherence\CacheSharp.Coherence.csproj", "{7B78979D-E9E2-41B7-83F5-6837F28F69AA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CacheSharp.Local", "CacheSharp.Local\CacheSharp.Local.csproj", "{D7146744-7170-49F1-BCAF-531E02AEF5E5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -64,6 +66,10 @@ Global
 		{7B78979D-E9E2-41B7-83F5-6837F28F69AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7B78979D-E9E2-41B7-83F5-6837F28F69AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7B78979D-E9E2-41B7-83F5-6837F28F69AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7146744-7170-49F1-BCAF-531E02AEF5E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7146744-7170-49F1-BCAF-531E02AEF5E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7146744-7170-49F1-BCAF-531E02AEF5E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7146744-7170-49F1-BCAF-531E02AEF5E5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

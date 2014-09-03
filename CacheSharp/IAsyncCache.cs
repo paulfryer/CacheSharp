@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 
 namespace CacheSharp
 {
-
     public interface IAsyncCache
     {
         Task PutAsync<T>(string key, T value, TimeSpan lifeSpan);
