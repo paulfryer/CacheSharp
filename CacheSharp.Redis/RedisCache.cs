@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using StackExchange.Redis;
@@ -20,6 +21,8 @@ namespace CacheSharp.Redis
         public async Task<T> GetAsync<T>(string key)
         {
             var json = await db.StringGetAsync(key);
+            if (string.IsNullOrEmpty(json))
+                return default(T);
             var value = JsonConvert.DeserializeObject<T>(json);
             return value;
         }
@@ -42,7 +45,13 @@ namespace CacheSharp.Redis
         public async Task InitializeAsync(Dictionary<string, string> parameters)
         {
             var endpoint = parameters["Endpoint"];
-            var redis = await ConnectionMultiplexer.ConnectAsync(endpoint);
+
+            
+
+            var redis = await ConnectionMultiplexer.ConnectAsync(endpoint, Console.Out);
+
+
+
             db = redis.GetDatabase();
         }
 

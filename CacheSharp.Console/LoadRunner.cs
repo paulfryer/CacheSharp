@@ -107,7 +107,7 @@ namespace CacheSharp.Console
 
                         var sb = new StringBuilder();
                         for (int c = 0; c < characters; c++)
-                            sb.Append("z");
+                            sb.Append(c);
 
 
                         string key = "Key" + x;
@@ -118,8 +118,8 @@ namespace CacheSharp.Console
 
                         if (TestOperations.Contains("Get"))
                         {
-                            var xt = await eventableCache.GetAsync<string>(key);
-                            //System.Console.WriteLine(xt);
+                            var valueFromCache = await eventableCache.GetAsync<string>(key);
+                            //System.Console.WriteLine(valueFromCache);
                         }
 
                         if (TestOperations.Contains("Remove"))
@@ -127,8 +127,8 @@ namespace CacheSharp.Console
                     }
                 };
                 actions.Add(Task.Run(action));
-                await Task.WhenAll(actions);
             }
+            await Task.WhenAll(actions);
         }
 
         private async Task UpdateMetric(string metricKey)
