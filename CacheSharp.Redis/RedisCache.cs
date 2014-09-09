@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using StackExchange.Redis;
@@ -34,7 +35,7 @@ namespace CacheSharp.Redis
 
         public List<string> InitializationProperties
         {
-            get { return new List<string> {"Endpoint"}; }
+            get { return new List<string> {"Endpoint", "Key"}; }
         }
 
         public string ProviderName
@@ -45,13 +46,15 @@ namespace CacheSharp.Redis
         public async Task InitializeAsync(Dictionary<string, string> parameters)
         {
             var endpoint = parameters["Endpoint"];
-
-            
-
-            var redis = await ConnectionMultiplexer.ConnectAsync(endpoint, Console.Out);
-
-
-
+            var conBuilder = new StringBuilder();
+            conBuilder.Append(endpoint);
+            if (parameters.ContainsKey("Key"))
+            {
+                 var key = parameters["Key"];
+                conBuilder.Append(",password=" + key);
+            }
+            var connectionString = conBuilder.ToString();
+            var redis = await ConnectionMultiplexer.ConnectAsync(connectionString);
             db = redis.GetDatabase();
         }
 
