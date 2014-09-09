@@ -35,7 +35,7 @@ namespace CacheSharp.Redis
 
         public List<string> InitializationProperties
         {
-            get { return new List<string> {"Endpoint", "Key"}; }
+            get { return new List<string> {"Endpoint", "Key", "UseSsl"}; }
         }
 
         public string ProviderName
@@ -52,6 +52,11 @@ namespace CacheSharp.Redis
             {
                  var key = parameters["Key"];
                 conBuilder.Append(",password=" + key);
+            }
+            if (parameters.ContainsKey("UseSsl"))
+            {
+                var useSsl = bool.Parse(parameters["UseSsl"]);
+                conBuilder.Append(",ssl=" + useSsl);
             }
             var connectionString = conBuilder.ToString();
             var redis = await ConnectionMultiplexer.ConnectAsync(connectionString);
