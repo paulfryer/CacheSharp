@@ -8,7 +8,7 @@ using StackExchange.Redis;
 
 namespace CacheSharp.Redis
 {
-    public sealed class RedisCache : IAsyncCache, IInitializable, ISyncCache
+    public sealed class RedisCache : IAsyncCache, ISyncCache
     {
         private IDatabase db;
 
@@ -63,6 +63,11 @@ namespace CacheSharp.Redis
             db = redis.GetDatabase();
         }
 
+        public void Initialize(Dictionary<string, string> parameters)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Put<T>(string key, T value, TimeSpan lifeSpan)
         {
             var stringValue = JsonConvert.SerializeObject(value);
@@ -72,6 +77,8 @@ namespace CacheSharp.Redis
         public T Get<T>(string key)
         {
             var json = db.StringGet(key);
+            if (string.IsNullOrEmpty(json))
+                return default(T);
             var value = JsonConvert.DeserializeObject<T>(json);
             return value;
         }

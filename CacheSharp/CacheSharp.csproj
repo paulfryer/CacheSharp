@@ -50,8 +50,8 @@
     <Compile Include="IAsyncCache.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ICache.cs" />
     <Compile Include="ICacheEventable.cs" />
-    <Compile Include="IInitializable.cs" />
     <Compile Include="CacheEventArgs.cs" />
     <Compile Include="GetEventArgs.cs" />
     <Compile Include="ISyncCache.cs" />

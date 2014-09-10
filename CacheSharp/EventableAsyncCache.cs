@@ -4,13 +4,18 @@ using System.Threading.Tasks;
 
 namespace CacheSharp
 {
-    public sealed class EventableAsyncCache : IAsyncCache, IInitializable, ICacheEventable
+    public sealed class EventableAsyncCache : IAsyncCache, ICacheEventable
     {
         private readonly IAsyncCache targetCache;
 
         public EventableAsyncCache(IAsyncCache targetCache)
         {
             this.targetCache = targetCache;
+        }
+
+        public async Task InitializeAsync(Dictionary<string, string> parameters)
+        {
+            await targetCache.InitializeAsync(parameters);
         }
 
         public async Task PutAsync<T>(string key, T value, TimeSpan lifeSpan)
@@ -26,7 +31,7 @@ namespace CacheSharp
         {
             if (PreGet != null)
                 PreGet(this, new CacheEventArgs(key));
-            T value = await targetCache.GetAsync<T>(key);
+            var value = await targetCache.GetAsync<T>(key);
             if (PostGet != null)
                 PostGet(this, new GetEventArgs(key));
             return value;
@@ -41,6 +46,16 @@ namespace CacheSharp
                 PostRemove(this, new CacheEventArgs(key));
         }
 
+        public string ProviderName
+        {
+            get { return targetCache.ProviderName; }
+        }
+
+        public List<string> InitializationProperties
+        {
+            get { return targetCache.InitializationProperties; }
+        }
+
         public event EventHandler<PutEventArgs> PrePut;
         public event EventHandler<PutEventArgs> PostPut;
 
@@ -49,31 +64,5 @@ namespace CacheSharp
 
         public event EventHandler<CacheEventArgs> PreRemove;
         public event EventHandler<CacheEventArgs> PostRemove;
-
-        public async Task InitializeAsync(Dictionary<string, string> parameters)
-        {
-            if (targetCache is IInitializable)
-                await (targetCache as IInitializable).InitializeAsync(parameters);
-        }
-
-        public string ProviderName
-        {
-            get
-            {
-                if (targetCache is IInitializable)
-                    return (targetCache as IInitializable).ProviderName;
-                return targetCache.GetType().Name;
-            }
-        }
-
-        public List<string> InitializationProperties
-        {
-            get
-            {
-                if (targetCache is IInitializable)
-                    return (targetCache as IInitializable).InitializationProperties;
-                return new List<string>();
-            }
-        }
     }
 }

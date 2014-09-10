@@ -11,7 +11,7 @@ using System.Timers;
 namespace CacheSharp.Console
 {
     public sealed class LoadRunner<TCache>
-        where TCache : IAsyncCache, IInitializable, new()
+        where TCache : IAsyncCache, new()
     {
         // 15 second interval.
 

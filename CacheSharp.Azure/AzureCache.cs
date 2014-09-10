@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Microsoft.ApplicationServer.Caching;
 using Newtonsoft.Json;
 
 namespace CacheSharp.Azure
 {
-    public class AzureCache : ISyncCache, IInitializable
+    public class AzureCache : ISyncCache
     {
         private DataCache cache;
         public string CacheRegion { get; set; }
 
-        public async Task InitializeAsync(Dictionary<string, string> parameters)
+        public void Initialize(Dictionary<string, string> parameters)
         {
             var cacheName = parameters["CacheName"];
             CacheRegion = parameters["CacheRegion"];
