@@ -43,14 +43,14 @@ namespace CacheSharp.Redis
             get { return "Redis"; }
         }
 
-        public async Task InitializeAsync(Dictionary<string, string> parameters)
+        private string GetConnectionString(Dictionary<string, string> parameters)
         {
             var endpoint = parameters["Endpoint"];
             var conBuilder = new StringBuilder();
             conBuilder.Append(endpoint);
             if (parameters.ContainsKey("Key"))
             {
-                 var key = parameters["Key"];
+                var key = parameters["Key"];
                 conBuilder.Append(",password=" + key);
             }
             if (parameters.ContainsKey("UseSsl"))
@@ -59,13 +59,21 @@ namespace CacheSharp.Redis
                 conBuilder.Append(",ssl=" + useSsl);
             }
             var connectionString = conBuilder.ToString();
+            return connectionString;
+        }
+
+        public async Task InitializeAsync(Dictionary<string, string> parameters)
+        {
+            var connectionString = GetConnectionString(parameters);
             var redis = await ConnectionMultiplexer.ConnectAsync(connectionString);
             db = redis.GetDatabase();
         }
 
         public void Initialize(Dictionary<string, string> parameters)
         {
-            throw new NotImplementedException();
+            var connectionString = GetConnectionString(parameters);
+            var redis = ConnectionMultiplexer.Connect(connectionString);
+            db = redis.GetDatabase();
         }
 
         public void Put<T>(string key, T value, TimeSpan lifeSpan)
