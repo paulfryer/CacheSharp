@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 
 namespace CacheSharp.Memcached
 {
-    public sealed class MemcachedCache : IAsyncCache, IInitializable, IDisposable
+    public sealed class MemcachedCache : IAsyncCache, IDisposable
     {
         private MemcachedClient client;
 

@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 
 namespace CacheSharp.SQLServer
 {
-    public sealed class SqlCache : IAsyncCache, IInitializable, IDisposable
+    public sealed class SqlCache : IAsyncCache, IDisposable
     {
         private DbConnection conn;
 

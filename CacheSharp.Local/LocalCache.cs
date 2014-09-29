@@ -1,15 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Caching;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CacheSharp.Local
 {
-    public class LocalCache : ISyncCache, IInitializable
+    public class LocalCache : ISyncCache
     {
         private MemoryCache cache;
+
+        public void Initialize(Dictionary<string, string> parameters)
+        {
+            var cacheName = parameters["CacheName"];
+            cache = new MemoryCache(cacheName);
+        }
 
         public void Put<T>(string key, T value, TimeSpan lifeSpan)
         {
@@ -24,7 +27,7 @@ namespace CacheSharp.Local
 
         public T Get<T>(string key)
         {
-            return (T)cache.Get(key);
+            return (T) cache.Get(key);
         }
 
         public void Remove(string key)
@@ -32,12 +35,6 @@ namespace CacheSharp.Local
             cache.Remove(key);
         }
 
-        public async Task InitializeAsync(Dictionary<string, string> parameters)
-        {
-            var cacheName = parameters["CacheName"];
-            cache = new MemoryCache(cacheName);
-            
-        }
 
         public List<string> InitializationProperties
         {

@@ -31,11 +31,11 @@ namespace CacheSharp.Console
                 case "Azure":
                     (new LoadRunner<AzureCache>(new FileLoadConfiguration(),
                         ConfigurationManager.AppSettings["Azure.ThingSpeakWriteApiKey"])).Run().Wait();
-                    break;*/
+                    break;
                 case "Coherence":
                     (new LoadRunner<CoherenceCache>(new FileLoadConfiguration(),
                         ConfigurationManager.AppSettings["Coherence.ThingSpeakWriteApiKey"])).Run().Wait();
-                    break;
+                    break;*/
                 default:
                     throw new Exception("Unsupported cache provider: " + configuration.CacheProvider);
             }
