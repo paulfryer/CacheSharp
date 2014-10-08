@@ -51,7 +51,8 @@ namespace CacheSharp.Redis
             if (parameters.ContainsKey("Key"))
             {
                 var key = parameters["Key"];
-                conBuilder.Append(",password=" + key);
+                if (!string.IsNullOrEmpty(key))
+                    conBuilder.Append(",password=" + key);
             }
             if (parameters.ContainsKey("UseSsl"))
             {
