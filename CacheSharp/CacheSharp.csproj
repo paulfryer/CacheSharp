@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CacheScope.cs" />
     <Compile Include="EventableAsyncCache.cs" />
     <Compile Include="IAsyncCache.cs">
       <SubType>Code</SubType>
