@@ -50,11 +50,13 @@
     <Compile Include="IAsyncCache.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="IAsyncPubSub.cs" />
     <Compile Include="ICache.cs" />
     <Compile Include="ICacheEventable.cs" />
     <Compile Include="CacheEventArgs.cs" />
     <Compile Include="GetEventArgs.cs" />
     <Compile Include="ISyncCache.cs" />
+    <Compile Include="MessageReceivedEventArgs.cs" />
     <Compile Include="PutEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
