@@ -9,6 +9,8 @@ namespace CacheSharp.Local
     {
         private MemoryCache cache;
 
+       
+
         public void Initialize(Dictionary<string, string> parameters)
         {
             var cacheName = parameters["CacheName"];
@@ -50,7 +52,7 @@ namespace CacheSharp.Local
 
         public string ProviderName
         {
-            get { return this.GetType().Name; }
+            get { return "Local"; }
         }
 
         public Task InitializeAsync(Dictionary<string, string> parameters)

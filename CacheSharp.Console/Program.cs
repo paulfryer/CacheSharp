@@ -2,6 +2,7 @@
 using System.Configuration;
 using CacheSharp.Azure;
 using CacheSharp.Coherence;
+using CacheSharp.Local;
 using CacheSharp.Memcached;
 using CacheSharp.Redis;
 using CacheSharp.SQLServer;
@@ -26,6 +27,10 @@ namespace CacheSharp.Console
                 case "Sql":
                     (new LoadRunner<SqlCache>(new FileLoadConfiguration(),
                         ConfigurationManager.AppSettings["Sql.ThingSpeakWriteApiKey"])).Run().Wait();
+                    break;
+                case "Local":
+                    (new LoadRunner<LocalCache>(new FileLoadConfiguration(),
+                        ConfigurationManager.AppSettings["Local.ThingSpeakWriteApiKey"])).Run().Wait();
                     break;
                     /*
                 case "Azure":

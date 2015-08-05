@@ -119,6 +119,10 @@
       <Project>{7B78979D-E9E2-41B7-83F5-6837F28F69AA}</Project>
       <Name>CacheSharp.Coherence</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CacheSharp.Local\CacheSharp.Local.csproj">
+      <Project>{D7146744-7170-49F1-BCAF-531E02AEF5E5}</Project>
+      <Name>CacheSharp.Local</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CacheSharp.Memcached\CacheSharp.Memcached.csproj">
       <Project>{C1265A08-0533-4794-8426-651F305603FB}</Project>
       <Name>CacheSharp.Memcached</Name>
