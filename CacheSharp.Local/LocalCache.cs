@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Caching;
+using System.Threading.Tasks;
 
 namespace CacheSharp.Local
 {
-    public class LocalCache : ISyncCache
+    public class LocalCache : ISyncCache, IAsyncCache
     {
         private MemoryCache cache;
 
@@ -50,6 +51,26 @@ namespace CacheSharp.Local
         public string ProviderName
         {
             get { return this.GetType().Name; }
+        }
+
+        public Task InitializeAsync(Dictionary<string, string> parameters)
+        {
+            return Task.Run(() => Initialize(parameters));
+        }
+
+        public Task PutAsync<T>(string key, T value, TimeSpan lifeSpan)
+        {
+            return Task.Run(() => Put(key, value, lifeSpan));
+        }
+
+        public Task<T> GetAsync<T>(string key)
+        {
+            return Task.Run(() => Get<T>(key));
+        }
+
+        public Task RemoveAsync(string key)
+        {
+            return Task.Run(() => Remove(key));
         }
     }
 }
