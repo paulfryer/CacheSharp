@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>CacheSharp.Local</id>
+        <version>1.0.2</version>
+        <title>CacheSharp Local</title>
+        <authors>Paul Fryer</authors>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>A local memory implementation of the CacheSharp interfaces (both sync an async versions).</description>
+        <summary>A local memory implementation of the CacheSharp interfaces (both sync an async versions).</summary>
+        <dependencies>
+            <dependency id="CacheSharp" version="2.1.0" />
+        </dependencies>
+    </metadata>
+    <files>
+        <file src="bin\Debug\CacheSharp.Local.dll" target="lib\CacheSharp.Local.dll" />
+    </files>
+</package>

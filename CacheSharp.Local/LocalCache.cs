@@ -7,7 +7,7 @@ namespace CacheSharp.Local
 {
     public class LocalCache : ISyncCache, IAsyncCache
     {
-        private MemoryCache cache;
+        private static MemoryCache cache;
 
         public Task InitializeAsync(Dictionary<string, string> parameters)
         {
