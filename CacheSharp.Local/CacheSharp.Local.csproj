@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="CacheSharp.Local.1.0.0.nupkg" />
+    <None Include="CacheSharp.Local.1.0.1.nupkg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
