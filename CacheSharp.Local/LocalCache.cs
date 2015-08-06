@@ -9,7 +9,26 @@ namespace CacheSharp.Local
     {
         private MemoryCache cache;
 
-       
+        public Task InitializeAsync(Dictionary<string, string> parameters)
+        {
+            return Task.Run(() => Initialize(parameters));
+        }
+
+        public Task PutAsync<T>(string key, T value, TimeSpan lifeSpan)
+        {
+            return Task.Run(() => Put(key, value, lifeSpan));
+        }
+
+        public Task<T> GetAsync<T>(string key)
+        {
+            return Task.Run(() => Get<T>(key));
+        }
+
+        public Task RemoveAsync(string key)
+        {
+            return Task.Run(() => Remove(key));
+        }
+
 
         public void Initialize(Dictionary<string, string> parameters)
         {
@@ -52,27 +71,7 @@ namespace CacheSharp.Local
 
         public string ProviderName
         {
-            get { return "Local"; }
-        }
-
-        public Task InitializeAsync(Dictionary<string, string> parameters)
-        {
-            return Task.Run(() => Initialize(parameters));
-        }
-
-        public Task PutAsync<T>(string key, T value, TimeSpan lifeSpan)
-        {
-            return Task.Run(() => Put(key, value, lifeSpan));
-        }
-
-        public Task<T> GetAsync<T>(string key)
-        {
-            return Task.Run(() => Get<T>(key));
-        }
-
-        public Task RemoveAsync(string key)
-        {
-            return Task.Run(() => Remove(key));
+            get { return "LocalCache"; }
         }
     }
 }
